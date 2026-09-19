@@ -37,7 +37,7 @@ join total_revenue tr on tr.customer_id = c.customer_id
 ORDER BY tr.total desc 
 limit 5;
 
--- Monthly revenue query
+-- Q4 Monthly revenue query
 select 
     to_char(o.order_date,'YYYY-MM') as month,
     sum(p.price * oi.quantity) as total
@@ -47,7 +47,7 @@ join orders o on o.order_id = oi.order_id
 group by  to_char(o.order_date,'YYYY-MM')
 order by month;
 
--- Avrage order value 
+-- Q5 Avrage order value 
 select 
 round(avg(order_total), 2) as avg_order_value
 from(
@@ -59,7 +59,7 @@ from(
         GROUP BY oi.order_id
     ) as order_totals;
 
---
+-- Q6 Sales by city
 select 
     sum(p.price * oi.quantity) as total_revenue,
     c.city
@@ -68,4 +68,18 @@ select
     join customers c on c.customer_id = o.customer_id
     join products p on p.product_id = oi.product_id
 GROUP BY c.city
-order by total_revenue desc
+order by total_revenue desc;
+
+--Q7 Order status percentage 
+select 
+    round((delivered * 100.0 / total ),2) as percentag_delivered,
+    round((shipped * 100.0 / total),2) as percentage_shipped,
+    round((pending * 100.0 / total),2) as percentage_pending
+from(
+    select
+        count(*) as total,
+        count(case WHEN status = 'delivered' then 1 end) as delivered,
+        count(case WHEN status = 'shipped' then 1 end) as shipped,
+        count(case WHEN status = 'pending' then 1 end) as pending
+    from orders
+    )as number_status      
