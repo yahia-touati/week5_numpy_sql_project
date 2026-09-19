@@ -18,7 +18,7 @@ join orders o on c.customer_id = o.customer_id
 group by c.name
 order by order_number desc;
 
---
+-- The top 5  clients  by total revenue 
 with total_revenue as(
     SELECT
         o.customer_id,
@@ -37,3 +37,12 @@ join total_revenue tr on tr.customer_id = c.customer_id
 ORDER BY tr.total desc 
 limit 5;
 
+--
+select 
+    to_char(o.order_date,'YYYY-MM') as month,
+    sum(p.price * oi.quantity) as total
+from products p
+join order_items oi on p.product_id = oi.product_id
+join orders o on o.order_id = oi.order_id
+group by  to_char(o.order_date,'YYYY-MM')
+order by month
