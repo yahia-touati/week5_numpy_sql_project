@@ -11,9 +11,4 @@ def get_connection():
         password=os.getenv("DB_PASSWORD"),
         port=os.getenv("DB_PORT")
     )
-    print("Connected successfully!")
     return conn
-
-if __name__ == "__main__":
-    conn = get_connection()
-    conn.close()
