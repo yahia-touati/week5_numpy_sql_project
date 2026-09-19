@@ -37,7 +37,7 @@ join total_revenue tr on tr.customer_id = c.customer_id
 ORDER BY tr.total desc 
 limit 5;
 
---
+-- Monthly revenue query
 select 
     to_char(o.order_date,'YYYY-MM') as month,
     sum(p.price * oi.quantity) as total
@@ -45,4 +45,16 @@ from products p
 join order_items oi on p.product_id = oi.product_id
 join orders o on o.order_id = oi.order_id
 group by  to_char(o.order_date,'YYYY-MM')
-order by month
+order by month;
+
+--
+select 
+round(avg(order_total), 2) as avg_order_value
+from(
+    select
+            oi.order_id,
+            sum(p.price * oi.quantity) as order_total
+        from products p 
+        join order_items oi on p.product_id = oi.product_id
+        GROUP BY oi.order_id
+    ) as order_totals;
