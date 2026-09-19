@@ -47,7 +47,7 @@ join orders o on o.order_id = oi.order_id
 group by  to_char(o.order_date,'YYYY-MM')
 order by month;
 
---
+-- Avrage order value 
 select 
 round(avg(order_total), 2) as avg_order_value
 from(
@@ -58,3 +58,14 @@ from(
         join order_items oi on p.product_id = oi.product_id
         GROUP BY oi.order_id
     ) as order_totals;
+
+--
+select 
+    sum(p.price * oi.quantity) as total_revenue,
+    c.city
+    from order_items oi 
+    join orders o on o.order_id = oi.order_id
+    join customers c on c.customer_id = o.customer_id
+    join products p on p.product_id = oi.product_id
+GROUP BY c.city
+order by total_revenue desc
