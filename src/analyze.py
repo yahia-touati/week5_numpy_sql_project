@@ -69,6 +69,36 @@ def top_5_customers(df):
     top_5_customer = df.groupby(["name_c", "city"])["revenue"].sum().nlargest(5)
     return top_5_customer
 
+def monthly_revenue(df):
+    #Step 1: Convert order_date to datetime
+    df["order_date"] = pd.to_datetime(df["order_date"])
+    #Step 2: Create new column with only the month
+    df["month"] = df["order_date"].dt.to_period("M")
+    # Step 3: Group by month and sum revenue
+    month_revenue = df.groupby("month")["revenue"].sum()
+    return month_revenue
+
+def average_order_value(df):
+    """ Average order value (AOV) """
+    averge_order = round(df.groupby("order_id")["revenue"].sum().mean(),2)
+    return averge_order
+
+def sales_by_city(df):
+    sales_city = df.groupby("city")["revenue"].sum().sort_values(ascending=False)
+    return sales_city
+
+def order_status_percentage(df):
+    """Percentage of order by status."""
+    # step 1: Get unique orders only (remove duplicates)
+    unique_orders = df.drop_duplicates(subset="order_id")
+    # Step 2: count each status
+    counts = unique_orders["status"].value_counts()
+    # Setp 3: Calculate percentage
+    percentage = (counts / counts.sum()) * 100
+    
+    return round(percentage, 2)
+
+
 if __name__ == "__main__":
     data = extract_all_tables()
     df = build_full_dataframe(data)
@@ -81,5 +111,8 @@ if __name__ == "__main__":
     print(top_5_products(df))
     print(customer_order_counts(df))
     print(top_5_customers(df))
-
+    print(monthly_revenue(df))
+    print(average_order_value(df))
+    print(sales_by_city(df))
+    print(order_status_percentage(df))
 
