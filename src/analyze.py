@@ -22,7 +22,7 @@ def build_full_dataframe(data):
                         on="product_id",suffixes=("_oi","_p"))
 
     merged = pd.merge(merged_df,df_customers,
-                        on="customer_id",suffixes=("_o","_c"))
+                        on="customer_id",suffixes=("_p","_c"))
     
     merged["revenue"] = merged["price"] * merged["quantity"]
 
@@ -51,6 +51,23 @@ def calculate_basic_stats(df):
         "min": min,
         "argmax": argmax
     }
+def revenue_by_category(df):
+    result = df.groupby("category")["revenue"].sum().sort_values(ascending=False)
+    return result
+
+def top_5_products(df):
+    top_5 = df.groupby("name_p")["revenue"].sum().nlargest(5)
+    return top_5
+
+def customer_order_counts(df):
+    # count unique orders per customer
+    order_count = df.groupby("name_c")["order_id"].nunique().sort_values(ascending=False)
+    return order_count
+
+def top_5_customers(df):
+    """Top 5 customers by total revenue. """
+    top_5_customer = df.groupby(["name_c", "city"])["revenue"].sum().nlargest(5)
+    return top_5_customer
 
 if __name__ == "__main__":
     data = extract_all_tables()
@@ -59,5 +76,10 @@ if __name__ == "__main__":
 
     for key, value in dict_stat.items():
         print(f"{key} : {value}")
+
+    print(df.columns.tolist())
+    print(top_5_products(df))
+    print(customer_order_counts(df))
+    print(top_5_customers(df))
 
 

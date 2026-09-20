@@ -9,7 +9,7 @@ join products p on p.product_id = ot.product_id
 GROUP BY p.category
 ORDER BY wills desc;
 
--- Display the number od customer orders and their names
+-- Display the number of customer orders and their names
 select
     c.name,
     count(o.order_id) as order_number
@@ -37,7 +37,7 @@ join total_revenue tr on tr.customer_id = c.customer_id
 ORDER BY tr.total desc 
 limit 5;
 
--- Q4 Monthly revenue query
+-- Q4 Monthly revenue 
 select 
     to_char(o.order_date,'YYYY-MM') as month,
     sum(p.price * oi.quantity) as total
