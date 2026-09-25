@@ -23,23 +23,23 @@ def geneerate_report(df):
     #1 Basic Statistcs
     print_section('1. BASIC STATISTICS')
     stats = calculate_basic_stats(df)
-    print(f" Total Revenue: ${stats['total_revenue']:,.2f}")
+    print(f" Total Revenue: {stats['total_revenue']:,.2f}$")
     print(f" Mean: {stats['mean']:,.2f}")
     print(f" Standerd Deviation: ${stats['std']:,.2f}")
-    print(f" Median: ${stats['median']:,.2f}")
-    print(f" Max Revenue (Single line): ${stats['max']:,.2f}")
+    print(f" Median: {stats['median']:,.2f}$")
+    print(f" Max Revenue (Single line): {stats['max']:,.2f}$")
 
     # 2. Revenue by Category
     print_section("2. REVENUE BY CATEGORY")
     rev_cat = revenue_by_category(df)
     for category, total in rev_cat.items():
-        print(f" {category}: ${total:,.2f}")
+        print(f" {category}: {total:,.2f}$")
 
     # 3. Top 5 Products
     print_section("TOP 5 PRODUCTS BY REVENUE")
     top_prod = top_5_products(df)
     for i ,(name, total) in enumerate(top_prod.items(), 1):
-        print(f" {i}. {name}: ${total:,.2f}")
+        print(f" {i}. {name}: {total:,.2f}$")
 
     # 4. Customer order Counts (top 5 only for brevity)
     print_section("4. CUSTOMER ORDER COUNTS (TOP 5 )")
@@ -51,24 +51,24 @@ def geneerate_report(df):
     print_section("TOP 5 CUSTOMERS BY REVENUE")
     top_cust = top_5_customers(df)
     for (name, city), total in top_cust.items():
-        print(f" {name} ({city}): ${total:,.2f}")
+        print(f" {name} ({city}): {total:,.2f}$")
 
     # 6. Menthly Revenue
     print_section("6. MENTHLY REVENUE")
     month_rev = monthly_revenue(df)
     for month, total in month_rev.items():
-        print(f" {month}: ${total:,.2f}")
+        print(f" {month}: {total:,.2f}$")
 
     # 7. Average Order Value
     print_section("AVERAGE ORDER VALUE")
     avrage = average_order_value(df)
-    print(f"AOV: ${avrage:,.2f}")
+    print(f"AOV: {avrage:,.2f}$")
 
     # 8. Sales by City
     print_section("8. SALES BY CITY")
     sales = sales_by_city(df)
     for city, total in sales.items():
-        print(f" {city}: ${total:,.2f}")
+        print(f" {city}: {total:,.2f}$")
 
     # 9. Order Status Percentage
     print_section("9. ORDER STATUS PRECEBTAGE")

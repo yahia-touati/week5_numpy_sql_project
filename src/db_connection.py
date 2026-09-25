@@ -1,14 +1,15 @@
 import os 
 import psycopg2
+from sqlalchemy import create_engine
 from dotenv import load_dotenv
 
-def get_connection():
+def get_engine():
     load_dotenv()
-    conn = psycopg2.connect(
-        host=os.getenv("DB_HOST"),
-        database=os.getenv("DB_NAME"),
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASSWORD"),
-        port=os.getenv("DB_PORT")
+    
+    db_url = (
+        f"postgresql+psycopg2://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}"
+        f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
     )
-    return conn
+    # Create the engine
+    engine = create_engine(db_url)
+    return engine
