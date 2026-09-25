@@ -1,5 +1,6 @@
 import pandas as pd
 from extract_data import extract_all_tables
+from visulaize import plot_monthly_revenue
 from analyze import (build_full_dataframe, calculate_basic_stats,
 revenue_by_category, customer_order_counts, top_5_customers,
 monthly_revenue, average_order_value,sales_by_city,
@@ -84,6 +85,7 @@ def main():
     dict_data = extract_all_tables()
     # Combine the dataframes into a single table and add the revenue
     df = build_full_dataframe(dict_data)
+    plot_monthly_revenue(df)
     # Generate the report 
     geneerate_report(df)
 
